@@ -39,7 +39,10 @@ class ProcessManager implements LoggerAwareInterface
      */
     public function killAllProcesses(Process $excludeProcess = null): void
     {
-        foreach ($this->processes as $process) {
+        $processes = $this->processes;
+        krsort($processes);
+
+        foreach ($processes as $process) {
             if ($process === $excludeProcess) {
                 continue;
             }
