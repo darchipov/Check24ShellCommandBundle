@@ -104,3 +104,62 @@ class AppKernel extends Kernel
     // ...
 }
 ```
+
+-------------------------------------------------------------------
+## Build-in commands
+### !!! Important: Before using this commands, be sure that these commands are installed in your dev-box.
+
+```yaml
+wget_streaming:
+    name: 'wget'
+    args:
+        url: '${url}'
+    options:
+        - '--no-verbose'
+        - '-O-'
+        - '--dns-timeout=10'
+        - '--connect-timeout=10'
+        - '--read-timeout=180'
+        - '--no-check-certificate'
+        - '--tries=1'
+        - '--waitretry=1'
+        - '--user=${username}'
+        - '--password=${password}'
+        - '--header="accept-encoding:gzip"'
+        - '--header="User-Agent: Check24/S2/COP-MOI"'
+        - '--quiet'
+
+sponge:
+    name: 'sponge'
+
+backup:
+    name: 'gzip'
+    options:
+        - '-n'
+    output:
+        path: 'path' => '%backup_tmp_destination%/${backupName}.csv.gz'
+        
+zgrep:
+    name: 'zgrep'
+    options:
+        - '--binary-files=text'
+    args:
+        - '""'
+    expectedExitCodes:
+        - 0
+        - 1
+        - 2
+
+funzip:
+    name: 'funzip'
+
+remove_empty_lines:
+    name: 'awk'
+    args:
+        - '"NR==1{sub(/^\xef\xbb\xbf/,\"\")}NF" RS="\r|\n|\r\n"'
+
+head:
+    name: 'head'
+    options:
+        - '-n 11'
+```
